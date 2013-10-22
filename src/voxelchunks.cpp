@@ -2,7 +2,7 @@
 #include <cmath>
 #include <cassert>
 
-// The implementation of voxelChunks is now incredibly unoptimized, but i dont care much
+// The implementation of voxelChunks is now incredibly unoptimized, but i don't care much
 // (createRandomChunk() function runtime is ~2ms in Release mode)
 
 VoxelEmptyChunk::VoxelEmptyChunk(VoxelData chunkData):
@@ -76,6 +76,7 @@ void VoxelGenericChunk::voxelData(unsigned int x, unsigned int y, unsigned int z
 VoxelChunkWrapper::VoxelChunkWrapper(VoxelData initData)
 {
     m_realChunk = new VoxelEmptyChunk(initData);
+    m_tesselDirty = true;
 }
 
 void VoxelChunkWrapper::morphTick()
@@ -86,6 +87,17 @@ void VoxelChunkWrapper::morphTick()
 void VoxelChunkWrapper::setVoxelData(unsigned int x, unsigned int y, unsigned int z, VoxelData const& rhs)
 {
     m_realChunk = m_realChunk->setVoxelData(x, y, z, rhs);
+    m_tesselDirty = true;
+}
+
+bool VoxelChunkWrapper::isTesselDirty()
+{
+    return m_tesselDirty;
+}
+
+void VoxelChunkWrapper::clearTesselDirty()
+{
+    m_tesselDirty = false;
 }
 
 void VoxelChunkWrapper::voxelData(unsigned int x, unsigned int y, unsigned int z, VoxelData& out)

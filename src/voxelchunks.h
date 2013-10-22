@@ -63,8 +63,12 @@ public:
 
     void setVoxelData(unsigned int x, unsigned int y, unsigned int z, VoxelData const& rhs);
     void voxelData(unsigned int x, unsigned int y, unsigned int z, VoxelData& out);
+
+    bool isTesselDirty();
+    void clearTesselDirty();
 protected:
     osg::ref_ptr<VoxelChunk> m_realChunk;
+    bool m_tesselDirty;
 };
 
 VoxelChunkWrapper* createRandomChunk();
